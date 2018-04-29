@@ -1,5 +1,5 @@
 let minBallSize = 50;
-let maxBallSize = 200;
+let maxBallSize = 100;
 let ellipseSize = 0;
 let colorVal = 0;
 let xpos, ypos, xposp, yposp;
@@ -14,21 +14,29 @@ function setup() {
 function draw() {
   xpos += sx; // sx
   ypos -= sy; // sy
+  edges();
 	colorVal = map(xpos, 0, width, 0, 255);
-	let angle = map(xpos, 0, width, 0, PI);
+	let angle = map(ypos, 0, height, 0, PI);
 	ellipseSize = abs(cos(angle) * maxBallSize) + minBallSize;
 	background(colorVal / 2, 255, 255)
 	noStroke();
 	fill(colorVal, 155, 200);
-	rect(width/ 2 - rectW / 2, 0, rectW, ypos - minBallSize * 0.5);
-	rect(width/ 2 - rectW / 2, (ypos - minBallSize * 0.5) + minBallSize, rectW, height);
+	// rect(width/ 2 - rectW / 2, 0, rectW, ypos - minBallSize * 0.5);
+	rect(0, height / 2 - rectW / 2, xpos - minBallSize * 0.5, rectW);
+	// rect(width/ 2 - rectW / 2, (ypos - minBallSize * 0.5) + minBallSize, rectW, height);
+	rect((xpos - minBallSize * 0.5) + minBallSize, height / 2 - rectW / 2,  width, rectW);
 	fill(255 - colorVal, 50, 200);
 	ellipse(xpos, ypos, ellipseSize * 0.85);
 }
 function windowResized(){
 	resizeCanvas(windowWidth, windowHeight);
 }
-
+function edges(){
+  if(xpos > width)xpos = 0;
+  if(xpos < 0)xpos = width;
+  if(ypos > height) ypos = 0;
+  if(ypos < 0) ypos = height;
+}
 
 /* PREFS */
 const easing = 0.5; // set between 0 - 1
